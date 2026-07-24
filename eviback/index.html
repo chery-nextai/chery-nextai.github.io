@@ -1,1 +1,203 @@
-EviBack: Evidence-Boundary-Preserving Teacher Backoff for Search-Agent Reinforcement Learning
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="EviBack is an evidence-boundary-preserving Teacher backoff method for sparse-reward Agentic RAG."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>EviBack | Learning Search Agents from Sparse Rewards with Evidence-Boundary-Preserving Teacher Backoff</title>
+    <link rel="icon" href="assets/eviback-mark.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="EviBack and NextAI home">
+        <img class="brand-eviback" src="assets/eviback-logo.png" alt="EviBack" />
+        <span class="brand-divider" aria-hidden="true"></span>
+        <img class="brand-nextai" src="assets/logo-nextai.svg" alt="NextAI" />
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <img class="hero-logo" src="assets/eviback-logo.png" alt="EviBack" />
+        <h1 id="hero-title">
+          <span class="title-line">Learning Search Agents from Sparse Rewards with</span>
+          <span class="title-line"><em>Evi</em>dence-Boundary-Preserving Teacher <em>Back</em>off</span>
+        </h1>
+        <p class="hero-copy">
+          EviBack improves Agentic RAG under sparse rewards by using constrained Teacher backoff to
+          strengthen retrieval, evidence assessment, and stopping decisions without overriding the Actor’s evidence boundaries.
+        </p>
+        <div class="paper-credits" aria-label="Paper authors and affiliation">
+          <p class="paper-authors">
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Xiao Ma</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Zhiquan Hu</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Yi Wei</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Chenchen Zhao</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Yijun Chen</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Jicheng Zhao</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Yuming Li</a>,
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">Chuang Dai</a>
+          </p>
+          <p class="paper-affiliation">
+            <a href="https://github.com/chery-nextai" target="_blank" rel="noreferrer">NextAI Research Institute</a>,
+            <a href="https://www.cheryinternational.com/" target="_blank" rel="noreferrer">Chery Group</a>
+          </p>
+        </div>
+        <nav class="resource-links" aria-label="Project resources">
+          <a class="resource-button resource-paper" href="https://chery-nextai.github.io/eviback/" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true"><img src="assets/resource-icons/arxiv.svg" alt="" /></span>
+            <span class="resource-label">Paper</span>
+          </a>
+          <a class="resource-button resource-github" href="https://chery-nextai.github.io/eviback/" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true"><img src="assets/resource-icons/github.png" alt="" /></span>
+            <span class="resource-label">GitHub</span>
+          </a>
+          <a class="resource-button resource-huggingface" href="https://chery-nextai.github.io/eviback/" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true"><img src="assets/resource-icons/hugface.png" alt="" /></span>
+            <span class="resource-label">HuggingFace</span>
+          </a>
+          <a class="resource-button resource-modelscope" href="https://chery-nextai.github.io/eviback/" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true"><img src="assets/resource-icons/modelscope.png" alt="" /></span>
+            <span class="resource-label">ModelScope</span>
+          </a>
+          <a class="resource-button resource-wechat" href="https://chery-nextai.github.io/eviback/" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true"><img src="assets/resource-icons/wechat.png" alt="" /></span>
+            <span class="resource-label">WeChat</span>
+          </a>
+        </nav>
+      </section>
+
+      <section class="overview" id="overview" aria-labelledby="overview-title">
+        <h2 class="section-title" id="overview-title">Overview</h2>
+        <video class="overview-video" controls playsinline preload="metadata">
+          <source src="assets/Eviback_Introduction.mp4" type="video/mp4" />
+        </video>
+      </section>
+
+      <section class="abstract" id="abstract" aria-labelledby="abstract-title">
+        <div class="abstract-topline">
+          <div>
+            <h2 class="section-title" id="abstract-title">Abstract</h2>
+          </div>
+        </div>
+
+        <p class="abstract-text">
+          Reinforcement learning enables Agentic RAG systems to learn when and how to search, assess
+          retrieved evidence, and decide when to stop. However, training often relies on sparse outcome
+          rewards, leaving unsuccessful rollout groups with little or no comparative signal. We present
+          EviBack, an evidence-constrained Teacher backoff method that preserves verifiable Actor rewards
+          and supplies weak auxiliary supervision only when every rollout in a group fails to produce a
+          correct answer. EviBack separates evidence assessment from answer refinement: a gold-blind gate
+          first determines whether the retrieved evidence is sufficient, and a gold-aware stage may refine
+          the answer only when the gate does not identify insufficient evidence. This separation prevents
+          reference-answer supervision from turning unsupported trajectories into apparently successful
+          ones. The Teacher policy is constructed through an auditable, GPT-5.5-assisted vibe-coding
+          workflow that converts natural-language specifications and trace-level diagnostics into versioned
+          prompts, control logic, and tests. The resulting Teacher is used only during training; inference
+          relies solely on the learned search Actor. Experiments across seven open-domain question-answering
+          benchmarks and three Qwen3 model scales yield consistent point-estimate improvements over Search-R1,
+          with statistically clear gains at 1.7B and 4B, together with scale-dependent changes in search and
+          stopping behavior. These results show that constrained Teacher backoff can restore useful learning
+          signal under sparse rewards while preserving the evidence boundary required for reliable
+          search-policy learning.
+        </p>
+      </section>
+
+      <section class="method" id="method" aria-labelledby="method-title">
+        <div class="method-title">
+          <h2 class="section-title" id="method-title">Method</h2>
+        </div>
+        <figure class="method-figure">
+          <img src="assets/framework.png?v=20260724" alt="EviBack Actor-first training, automatically constructed evidence-constrained Teacher backoff, and Teacher-free inference framework" />
+          <figcaption>EviBack preserves verified Actor rewards, uses a frozen Teacher only for all-zero groups during training, and deploys the Actor alone at inference.</figcaption>
+        </figure>
+        <div class="method-summary">
+          <p>EviBack turns otherwise unusable all-zero GRPO groups into ranked training signal while leaving every verifiable Actor reward untouched. A GPT-5.5-controlled automatic prompt engineering pipeline discovers, tests, and freezes the gated Teacher policy; formal RL uses the resulting GLM-4.7-Flash Teacher only during training, and inference remains Actor-only.</p>
+          <ul>
+            <li><strong>Signal only where needed.</strong> The reward audit finds that 73% of rollout groups have no binary contrast. EviBack calls the Teacher only when all eight trajectories receive zero exact-match reward; mixed groups keep their original rewards. Fallback rewards are normalized within the group and their advantages are scaled by 0.1, so auxiliary supervision remains weaker than a verified Actor hit.</li>
+            <li><strong>Gold cannot move the boundary.</strong> Stage A judges only the question and Actor-visible evidence. Stage B sees the reference only after Stage A returns supported or ambiguous, and it cannot overturn an insufficient decision. The resulting gate preserves Stage A's 0.8924 insufficient-evidence F1 while raising gold-answer coverage to 0.6825, above the 0.6399 gold-aware single prompt.</li>
+            <li><strong>Automatically built and deployment-free.</strong> With no manual prompt intervention after launch, GPT-5.5 generates, executes, diagnoses, and refines candidates before freezing versioned prompts, gating logic, parsers, tests, hashes, and logs. Compared with the manual Teacher, the selected policy adds 2.60 F1 points and 21.97 valid-answer-rate points while reducing mean searches by 1.4067; neither Teacher nor GPT-5.5 is used at inference.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="results" id="results" aria-labelledby="results-title">
+        <div class="results-inner">
+          <header class="results-header">
+            <h2 class="section-title" id="results-title">Results</h2>
+          </header>
+
+          <p class="results-lede">
+            Under a common deterministic protocol spanning 3,500 questions and seven open-domain QA
+            benchmarks, EviBack achieves the best aggregate EM and F1 at every tested Qwen3 scale. It records
+            the highest per-benchmark F1 in 19 of 21 scale-dataset settings, including all seven benchmarks at
+            1.7B. Relative to Search-R1, the F1 gains are +0.59, +4.02, and +1.32 points at 0.6B, 1.7B, and 4B,
+            with statistically clear gains at 1.7B and 4B. At 1.7B, EviBack also improves valid-answer rate
+            while reducing searches, duplicate queries, and forced termination.
+          </p>
+
+          <figure class="results-figure">
+            <div class="results-figure-media">
+              <img
+                src="assets/results-summary.png?v=20260724"
+                alt="Three grouped bar charts comparing Answer F1 for the Base Actor, Search-R1, and EviBack across seven question-answering benchmarks at Qwen3 0.6B, 1.7B, and 4B scales"
+              />
+            </div>
+            <figcaption>
+              Per-benchmark Answer F1 from Figure 4 of the paper. EviBack leads all seven benchmarks at 1.7B and six of seven at both 0.6B and 4B.
+            </figcaption>
+          </figure>
+
+          <div class="result-highlights">
+            <article>
+              <span class="result-value">19 / 21 wins</span>
+              <h3>Near-universal benchmark leadership</h3>
+              <p>EviBack delivers the highest F1 on all seven benchmarks at 1.7B and on six of seven at both 0.6B and 4B.</p>
+            </article>
+            <article>
+              <span class="result-value">25.09% to 29.11%</span>
+              <h3>Strongest gain at 1.7B</h3>
+              <p>F1 rises by 4.02 points, with a paired 95% confidence interval of [3.05, 4.96] points.</p>
+            </article>
+            <article>
+              <span class="result-value">593 recoveries</span>
+              <h3>Failed trajectories become valid</h3>
+              <p>At 1.7B, 593 questions move from failure under Search-R1 to a valid EviBack answer, compared with only 140 regressions.</p>
+            </article>
+            <article>
+              <span class="result-value">+2.60 F1 points</span>
+              <h3>Automated Teacher construction wins</h3>
+              <p>The APE-built EviBack Teacher also adds 21.97 points in valid-answer rate and reduces mean searches by 1.4067 over the manual design.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <a class="footer-brand" href="#top"><img src="assets/eviback-logo.png" alt="EviBack" /></a>
+      <p>Evidence-Boundary-Preserving Teacher Backoff for Agentic RAG.</p>
+    </footer>
+
+    <div class="resource-toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
