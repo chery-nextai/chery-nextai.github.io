@@ -153,6 +153,18 @@ h1 em { color: var(--blue); font-size: inherit; font-style: normal; }
 .result-highlights h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.25; }
 .result-highlights p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
 
+.comparison { padding: 32px var(--section-gutter) 40px; border-top: 1px solid var(--line); background: #fff; }
+.comparison-inner { width: min(1400px, 100%); margin: 0 auto; }
+.comparison .section-title { text-align: center; }
+.comparison-grid { display: grid; margin-top: 22px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.comparison-grid video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 6px; background: #000; object-fit: contain; }
+
+.bibtex { padding: 32px var(--section-gutter) 40px; border-top: 1px solid var(--line); background: var(--soft); }
+.bibtex-inner { width: min(var(--content-max), 100%); margin: 0 auto; }
+.bibtex .section-title { text-align: center; }
+.bibtex pre { margin: 22px 0 0; padding: 24px; overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; color: #243650; background: #fff; font: 14px/1.7 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+.bibtex code { font: inherit; }
+
 footer { display: flex; min-height: 210px; padding: 44px 4vw; align-items: center; flex-direction: column; justify-content: center; gap: 16px; border-top: 1px solid var(--line); text-align: center; }
 .footer-brand img { width: 170px; }
 footer p { margin: 0; color: var(--muted); font-size: 17px; font-weight: 700; }
@@ -179,6 +191,7 @@ footer p { margin: 0; color: var(--muted); font-size: 17px; font-weight: 700; }
   .resource-links::-webkit-scrollbar { display: none; }
   .resource-button { scroll-snap-align: start; }
   .method-summary ul { grid-template-columns: 1fr; gap: 14px; }
+  .comparison-grid { grid-template-columns: 1fr; }
   .result-highlights { grid-template-columns: 1fr; }
   .result-highlights article, .result-highlights article:nth-child(2n), .result-highlights article:nth-last-child(-n + 2) { padding: 24px 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .result-highlights article:last-child { border-bottom: 0; }
@@ -195,7 +208,8 @@ footer p { margin: 0; color: var(--muted); font-size: 17px; font-weight: 700; }
   .button { width: 100%; }
   .resource-links { margin-top: 28px; }
   .resource-toast { right: 16px; bottom: 16px; left: 16px; text-align: center; }
-  .overview, .method, .abstract, .results { padding: 28px 18px 32px; }
+  .overview, .method, .abstract, .results, .comparison, .bibtex { padding: 28px 18px 32px; }
+  .bibtex pre { padding: 18px; font-size: 13px; }
   .section-title { font-size: 30px; }
   .section-tagline { font-size: 25px; }
   .abstract-text, .method-summary, .results-lede { font-size: 17px; }
